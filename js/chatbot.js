@@ -132,13 +132,13 @@
     wrap.innerHTML =
       '<button class="oim-chat-launcher" id="oimChatLauncher" aria-label="Open Motion Bot" aria-expanded="false">' +
         '<span class="ping"></span>' +
-        '<img class="icon-chat oim-bot-face" src="assets/motion-bot-face.svg" alt="Motion Bot">' +
+        '<img class="icon-chat oim-bot-face" src="' + BASE + 'assets/motion-bot-face.svg" alt="Motion Bot">' +
         '<svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>' +
       '</button>' +
       '<div class="oim-chat-tooltip" id="oimChatTooltip">Hey, I\'m Motion Bot — not sure where to start? Ask me →</div>' +
       '<div class="oim-chat-panel" id="oimChatPanel" role="dialog" aria-label="Motion Bot">' +
         '<div class="oim-chat-header">' +
-          '<span class="title"><img class="oim-bot-face-sm" src="assets/motion-bot-face.svg" alt="">Motion Bot</span>' +
+          '<span class="title"><img class="oim-bot-face-sm" src="' + BASE + 'assets/motion-bot-face.svg" alt="">Motion Bot</span>' +
           '<button class="oim-chat-close" id="oimChatCloseBtn" aria-label="Close">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>' +
           '</button>' +
