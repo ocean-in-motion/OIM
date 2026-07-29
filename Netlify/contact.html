@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — O.I.M.</title>
+<meta name="description" content="Get in touch with Ocean in Motion — let's build something.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="assets/oim-logo-white.svg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/chatbot.css">
+<style>
+  .contact-hero{ padding-top:170px; padding-bottom:20px; }
+  .contact-hero h1{ font-size:clamp(36px,6vw,60px); max-width:640px; }
+  .contact-hero .lede{ max-width:560px; color:var(--dim); font-size:clamp(15px,1.6vw,18px); margin-top:22px; }
+
+  .contact-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:start; }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  .direct-card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg); padding:32px; }
+  .direct-card h3{ font-size:13px; font-family:var(--font-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--sonar); margin-bottom:18px; }
+  .direct-card p{ font-size:13.5px; color:var(--dim); }
+
+  .email-row{
+    display:flex; align-items:center; gap:12px; padding:14px 0; margin:14px 0;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .email-link{ font-family:var(--font-mono); font-size:15.5px; word-break:break-all; flex:1; transition:color .2s ease; }
+  .email-link:hover{ color:var(--sonar); }
+  .copy-btn{
+    flex-shrink:0; background:transparent; border:1px solid var(--line-strong); color:var(--dim);
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+    padding:10px 16px; border-radius:999px; transition:border-color .2s ease, color .2s ease;
+  }
+  .copy-btn:hover{ border-color:var(--sonar); color:var(--sonar); }
+  .copy-btn.copied{ border-color:var(--sonar); color:var(--sonar); }
+
+  @media (max-width:480px){
+    .email-row{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .copy-btn{ align-self:flex-start; }
+  }
+
+  .social-row{ display:flex; gap:12px; margin-top:24px; flex-wrap:wrap; }
+  .social-btn{
+    width:42px; height:42px; display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--line-strong); border-radius:50%; color:var(--dim);
+    transition:border-color .25s ease, color .25s ease, transform .25s ease;
+  }
+  .social-btn svg{ width:18px; height:18px; }
+  .social-btn:hover{ border-color:var(--sonar); color:var(--sonar); transform:translateY(-3px); }
+
+  form.oim-form{ display:flex; flex-direction:column; gap:20px; }
+  .field label{ display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:8px; }
+  .field input, .field select, .field textarea{
+    width:100%; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:14px 16px; color:var(--ink); font-family:var(--font-body); font-size:15px;
+    transition:border-color .25s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--sonar); }
+  .field textarea{ resize:vertical; min-height:130px; }
+  .row-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:560px){ .row-2{ grid-template-columns:1fr; } }
+  .hp-field{ position:absolute; left:-9999px; opacity:0; }
+  .form-error{ color:#ff8a8a; font-size:13px; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="brand-mark"><img src="assets/oim-logo-white.svg" alt="O.I.M."><span class="brand-text">O.I.M.</span></a>
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="packages.html">Packages</a>
+    <a href="contact.html" class="nav-cta current">Contact</a>
+  </div>
+</nav>
+
+<div class="depth-rail">
+  <div class="track"><div class="fill"></div><div class="readout">0 FT</div></div>
+</div>
+
+<header class="hero contact-hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Get in touch</div>
+    <h1>Let's build something.</h1>
+    <p class="lede">Whatever the project — branding, a website, a strategy overhaul, a set list — reach out and let's talk it through.</p>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="section-inner contact-grid">
+
+    <div class="direct-card">
+      <h3>Direct</h3>
+      <p>Prefer email? Reach out directly and expect a reply within 1–2 business days.</p>
+
+      <div class="email-row">
+        <a class="email-link" href="mailto:oceaninmotionco@gmail.com" id="emailLink">oceaninmotionco@gmail.com</a>
+        <button type="button" class="copy-btn" id="copyEmailBtn">Copy</button>
+      </div>
+
+      <p>Based in the U.S. · Working with clients remotely and on-site.</p>
+
+      <div class="social-row">
+        <a href="https://www.instagram.com/_ocean.in.motion_?igsh=a2xraTNjNDZ5dTBw&utm_source=qr" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4.2"/>
+            <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/share/18btiiej9u/?mibextid=wwXIfr" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 8.5h2V5h-2.3A3.7 3.7 0 0 0 11 8.7V11H8.5v3.5H11V21h3.2v-6.5h2.4l.5-3.5h-2.9V9c0-.3.2-.5.5-.5Z"/>
+          </svg>
+        </a>
+        <a href="https://www.tiktok.com/@0cean_in_m0ti0n?_r=1&_t=ZP-97nM4iSoTzr" target="_blank" rel="noopener" class="social-btn" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 4v10.4a3.3 3.3 0 1 1-2.6-3.22"/>
+            <path d="M14 4c.35 2.7 2.1 4.55 4.6 4.85"/>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/ocean-saywack" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <circle cx="7.8" cy="8" r="0.9" fill="currentColor" stroke="none"/>
+            <path d="M7.8 11v6"/>
+            <path d="M12 17v-3.5c0-1.4 1-2.5 2.3-2.5s2.2 1 2.2 2.5V17"/>
+            <path d="M12 11v6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!--
+      Web3Forms: submits via JS fetch to the Web3Forms API using the access
+      key below. On success the visitor is redirected to /thank-you; if
+      JS is unavailable, the form still posts directly to Web3Forms as a
+      plain HTML form submission.
+    -->
+    <form class="oim-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="04c62554-8db9-4476-889e-ea5f920d39cd">
+      <input type="hidden" name="subject" value="New inquiry from the Ocean In Motion website">
+      <input type="hidden" name="from_name" value="O.I.M. Website">
+      <p class="hp-field"><label>Don't fill this out if you're human: <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label></p>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="project">Project type</label>
+        <select id="project" name="project">
+          <option value="Anchor — Foundation Package">Anchor — Foundation Package</option>
+          <option value="Harbor — Website Package">Harbor — Website Package</option>
+          <option value="Current — Growth Package">Current — Growth Package</option>
+          <option value="Tide — Social Media Management">Tide — Social Media Management</option>
+          <option value="Fleet — Partnership Package">Fleet — Partnership Package</option>
+          <option value="Horizon — Business Growth Partnership">Horizon — Business Growth Partnership</option>
+          <option value="Add-on / specialty request">Add-on / specialty request</option>
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required placeholder="Tell me a bit about the project..."></textarea>
+      </div>
+
+      <p class="form-error" id="formError" style="display:none;">Something went wrong sending your message — please try again or email us directly at oceaninmotionco@gmail.com.</p>
+
+      <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send message</button>
+    </form>
+
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">© <span id="year"></span> Ocean in Motion — O.I.M.</div>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="packages.html">Packages</a>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Pre-select the project dropdown when arriving from a "Request Proposal" button
+  (function () {
+    var packageMap = {
+      anchor: 'Anchor — Foundation Package',
+      harbor: 'Harbor — Website Package',
+      current: 'Current — Growth Package',
+      tide: 'Tide — Social Media Management',
+      fleet: 'Fleet — Partnership Package',
+      horizon: 'Horizon — Business Growth Partnership'
+    };
+    var params = new URLSearchParams(window.location.search);
+    var pkg = params.get('package');
+    if (pkg && packageMap[pkg]) {
+      var select = document.getElementById('project');
+      select.value = packageMap[pkg];
+    }
+  })();
+
+  // copy email to clipboard
+  const copyBtn = document.getElementById('copyEmailBtn');
+  const emailAddress = 'oceaninmotionco@gmail.com';
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(emailAddress).then(() => {
+      copyBtn.textContent = 'Copied';
+      copyBtn.classList.add('copied');
+      setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  // Web3Forms submission
+  const form = document.getElementById('contactForm');
+  const errorEl = document.getElementById('formError');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errorEl.style.display = 'none';
+    const submitBtn = form.querySelector('button[type=submit]');
+    const originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = 'thank-you';
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      })
+      .catch(() => {
+        errorEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      });
+  });
+</script>
+<script src="js/chatbot.js"></script>
+</body>
+</html>
