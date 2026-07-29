@@ -3,80 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — O.I.M.</title>
-<meta name="description" content="Get in touch with Ocean in Motion — let's build something.">
+<title>O.I.M. — Ocean in Motion</title>
+<meta name="description" content="Ocean In Motion (O.I.M.) is a business growth agency combining branding, websites, technology, AI, and strategy into one integrated growth engine.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="assets/oim-logo-white.svg">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/chatbot.css">
 <style>
-  .contact-hero{ padding-top:170px; padding-bottom:20px; }
-  .contact-hero h1{ font-size:clamp(36px,6vw,60px); max-width:640px; }
-  .contact-hero .lede{ max-width:560px; color:var(--dim); font-size:clamp(15px,1.6vw,18px); margin-top:22px; }
-
-  .contact-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:start; }
-  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
-
-  .direct-card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg); padding:32px; }
-  .direct-card h3{ font-size:13px; font-family:var(--font-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--sonar); margin-bottom:18px; }
-  .direct-card p{ font-size:13.5px; color:var(--dim); }
-
-  .email-row{
-    display:flex; align-items:center; gap:12px; padding:14px 0; margin:14px 0;
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  /* ---------- home-only: sonar hero ---------- */
+  .sonar-hero{
+    min-height:100svh; display:flex; align-items:center; justify-content:center;
+    padding:140px var(--pad) 80px; text-align:center;
   }
-  .email-link{ font-family:var(--font-mono); font-size:15.5px; word-break:break-all; flex:1; transition:color .2s ease; }
-  .email-link:hover{ color:var(--sonar); }
-  .copy-btn{
-    flex-shrink:0; background:transparent; border:1px solid var(--line-strong); color:var(--dim);
-    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
-    padding:10px 16px; border-radius:999px; transition:border-color .2s ease, color .2s ease;
+  .sonar-stage{
+    position:relative; width:min(78vw,560px); height:min(78vw,560px); margin:0 auto 8px;
+    display:flex; align-items:center; justify-content:center;
   }
-  .copy-btn:hover{ border-color:var(--sonar); color:var(--sonar); }
-  .copy-btn.copied{ border-color:var(--sonar); color:var(--sonar); }
+  .sonar-ring{
+    position:absolute; border:1px solid var(--line); border-radius:50%;
+    opacity:0; animation:ringIn .9s ease forwards;
+  }
+  .sonar-ring.r1{ inset:34%; animation-delay:.15s; }
+  .sonar-ring.r2{ inset:20%; animation-delay:.35s; }
+  .sonar-ring.r3{ inset:6%; animation-delay:.55s; }
+  .sonar-ring.r4{ inset:0%; animation-delay:.75s; border-color:var(--line-strong); }
+  @keyframes ringIn{ from{ opacity:0; transform:scale(.85); } to{ opacity:1; transform:scale(1); } }
 
-  @media (max-width:480px){
-    .email-row{ flex-direction:column; align-items:flex-start; gap:12px; }
-    .copy-btn{ align-self:flex-start; }
+  .sonar-sweep{
+    position:absolute; inset:0; border-radius:50%; overflow:hidden;
+    opacity:0; animation:sweepIn .6s ease forwards .9s;
+  }
+  @keyframes sweepIn{ to{ opacity:1; } }
+  .sonar-sweep::before{
+    content:''; position:absolute; inset:-2%;
+    background:conic-gradient(from 0deg, var(--sonar-glow) 0deg, transparent 55deg 360deg);
+    animation:spin 4.5s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .sonar-marks{ position:absolute; inset:0; }
+  .sonar-dot{
+    position:absolute; width:6px; height:6px; border-radius:50%; background:var(--sonar);
+    opacity:0; box-shadow:0 0 12px 2px var(--sonar-glow);
+    animation:dotIn .5s ease forwards;
+  }
+  @keyframes dotIn{ to{ opacity:1; } }
+
+  .sonar-mark-img{
+    position:relative; z-index:2; width:46%; height:46%;
+    opacity:0; clip-path:circle(0% at 50% 50%);
+    filter:drop-shadow(0 0 0 rgba(61,188,202,0));
+    animation:logoReveal 1.6s cubic-bezier(.4,0,.2,1) forwards 1.5s;
+  }
+  @keyframes logoReveal{
+    0%{ opacity:0; clip-path:circle(0% at 50% 50%); filter:drop-shadow(0 0 0 rgba(61,188,202,0)); }
+    35%{ opacity:1; }
+    100%{ opacity:1; clip-path:circle(52% at 50% 50%); filter:drop-shadow(0 0 26px var(--sonar-glow)); }
   }
 
-  .social-row{ display:flex; gap:12px; margin-top:24px; flex-wrap:wrap; }
-  .social-btn{
-    width:42px; height:42px; display:flex; align-items:center; justify-content:center;
-    border:1px solid var(--line-strong); border-radius:50%; color:var(--dim);
-    transition:border-color .25s ease, color .25s ease, transform .25s ease;
-  }
-  .social-btn svg{ width:18px; height:18px; }
-  .social-btn:hover{ border-color:var(--sonar); color:var(--sonar); transform:translateY(-3px); }
+  .hero-copy{ opacity:0; transform:translateY(16px); animation:copyIn .8s ease forwards 2.9s; }
+  @keyframes copyIn{ to{ opacity:1; transform:translateY(0); } }
 
-  form.oim-form{ display:flex; flex-direction:column; gap:20px; }
-  .field label{ display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:8px; }
-  .field input, .field select, .field textarea{
-    width:100%; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-sm);
-    padding:14px 16px; color:var(--ink); font-family:var(--font-body); font-size:15px;
-    transition:border-color .25s ease;
+  .hero-copy .eyebrow{ justify-content:center; margin-bottom:18px; }
+  .hero-copy h1{
+    font-size:clamp(40px,7vw,88px); letter-spacing:.02em; margin-bottom:14px;
   }
-  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--sonar); }
-  .field textarea{ resize:vertical; min-height:130px; }
-  .row-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  @media (max-width:560px){ .row-2{ grid-template-columns:1fr; } }
-  .hp-field{ position:absolute; left:-9999px; opacity:0; }
-  .form-error{ color:#ff8a8a; font-size:13px; }
+  .hero-statement{
+    font-family:var(--font-display); font-weight:500; color:var(--ink);
+    font-size:clamp(19px,2.4vw,27px); max-width:640px; margin:0 auto 16px; line-height:1.35;
+  }
+  @media (min-width:760px){
+    .hero-statement{ max-width:900px; white-space:nowrap; }
+  }
+  .hero-copy .tagline{
+    max-width:560px; margin:0 auto 34px; color:var(--dim); font-size:clamp(15px,1.7vw,18px);
+  }
+  .hero-actions{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  /* ---------- pillars: three disciplines, one engine ---------- */
+  .engine-intro{ max-width:680px; margin:0 auto 52px; text-align:center; }
+  .engine-intro .eyebrow{ justify-content:center; margin-bottom:16px; }
+  .engine-intro h2{ font-size:clamp(28px,3.6vw,42px); margin-bottom:16px; }
+  .engine-intro p{ color:var(--dim); font-size:16px; }
+  .pillars{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  @media (max-width:860px){ .pillars{ grid-template-columns:1fr; } }
+  .pillar .mono-tag{ font-family:var(--font-mono); font-size:11px; color:var(--sonar); letter-spacing:.12em; margin-bottom:16px; display:block; }
+  .pillar h3{ font-size:21px; margin-bottom:12px; }
+  .pillar p{ color:var(--dim); font-size:14.5px; }
+
+  /* ---------- philosophy ---------- */
+  .philosophy{ text-align:center; padding:70px var(--pad) 96px; }
+  .philosophy .eyebrow{ justify-content:center; margin-bottom:18px; }
+  .philosophy h2{ font-size:clamp(28px,4vw,46px); max-width:760px; margin:0 auto 24px; line-height:1.2; }
+  .philosophy p.lead{ max-width:620px; margin:0 auto 18px; color:var(--dim); font-size:16px; }
+  .philosophy p.follow{ max-width:620px; margin:0 auto 34px; color:var(--dim); font-size:16px; }
+  .foundation-pieces{
+    display:flex; flex-wrap:wrap; gap:14px 28px; justify-content:center;
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim2);
+  }
+  .foundation-pieces span::before{ content:'—'; color:var(--sonar); margin-right:8px; }
+
+  /* ---------- services chip cloud ---------- */
+  .chip-cloud{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:38px; }
+  .chip{
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:.03em; color:var(--ink);
+    background:transparent; border:1px solid var(--line-strong); border-radius:999px; padding:10px 18px;
+    cursor:pointer; transition:border-color .25s ease, color .25s ease, transform .25s ease;
+  }
+  .chip:hover{ border-color:var(--sonar); color:var(--sonar); transform:translateY(-2px); }
+  .chip:focus-visible{ outline:2px solid var(--sonar); outline-offset:2px; }
+
+  /* ---------- term definition popup ---------- */
+  .term-overlay{
+    position:fixed; inset:0; z-index:90; background:rgba(6,10,16,.65);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .term-overlay.show{ opacity:1; pointer-events:auto; }
+  .term-modal{
+    position:relative; max-width:420px; width:100%; background:var(--panel); border:1px solid var(--sonar-dim);
+    border-radius:var(--radius-lg); padding:36px 32px; text-align:left;
+    transform:scale(.9) translateY(10px); opacity:0;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s ease;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+  }
+  .term-overlay.show .term-modal{ transform:scale(1) translateY(0); opacity:1; }
+  .term-overlay.show .term-modal::before{ animation:termPing .8s ease-out; }
+  .term-modal::before{
+    content:''; position:absolute; inset:-1px; border-radius:inherit; border:1px solid var(--sonar-dim);
+    pointer-events:none; opacity:0;
+  }
+  @keyframes termPing{
+    0%{ transform:scale(.96); opacity:.9; }
+    100%{ transform:scale(1.05); opacity:0; }
+  }
+  .term-close{
+    position:absolute; top:14px; right:14px; background:none; border:none; color:var(--dim);
+    cursor:pointer; padding:10px; margin:-10px; line-height:0;
+  }
+  .term-close:hover{ color:var(--sonar); }
+  .term-close svg{ width:16px; height:16px; display:block; }
+  .term-eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--sonar); margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  }
+  .term-eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--sonar); flex-shrink:0; }
+  .term-title{ font-size:26px; margin-bottom:14px; }
+  .term-desc{ color:var(--dim); font-size:15px; line-height:1.6; }
+
+  /* ---------- closer ---------- */
+  .closer{ text-align:center; padding:120px var(--pad); }
+  .closer h2{ font-size:clamp(28px,4.4vw,52px); max-width:760px; margin:0 auto 30px; line-height:1.15; }
+  .closer .accent{ color:var(--sonar); font-style:italic; }
 </style>
 </head>
 <body>
 
 <nav class="site-nav">
-  <a href="index.html" class="brand-mark"><img src="assets/oim-logo-white.svg" alt="O.I.M."><span class="brand-text">O.I.M.</span></a>
+  <a href="index.html" class="brand-mark">
+    <img src="assets/oim-logo-white.svg" alt="O.I.M.">
+    <span class="brand-text">O.I.M.</span>
+  </a>
   <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
   <div class="nav-links">
-    <a href="index.html">Home</a>
+    <a href="index.html" class="current">Home</a>
     <a href="about.html">About</a>
     <a href="packages.html">Packages</a>
-    <a href="contact.html" class="nav-cta current">Contact</a>
+    <a href="contact.html" class="nav-cta">Contact</a>
   </div>
 </nav>
 
@@ -84,182 +180,170 @@
   <div class="track"><div class="fill"></div><div class="readout">0 FT</div></div>
 </div>
 
-<header class="hero contact-hero">
-  <div class="hero-inner">
-    <div class="eyebrow">Get in touch</div>
-    <h1>Let's build something.</h1>
-    <p class="lede">Whatever the project — branding, a website, a strategy overhaul, a set list — reach out and let's talk it through.</p>
+<header class="sonar-hero">
+  <div class="hero-inner" style="width:100%;">
+    <div class="sonar-stage">
+      <div class="sonar-ring r1"></div>
+      <div class="sonar-ring r2"></div>
+      <div class="sonar-ring r3"></div>
+      <div class="sonar-ring r4"></div>
+      <div class="sonar-sweep"></div>
+      <div class="sonar-marks">
+        <div class="sonar-dot" style="top:18%; left:62%; animation-delay:1.1s;"></div>
+        <div class="sonar-dot" style="top:70%; left:30%; animation-delay:1.25s;"></div>
+        <div class="sonar-dot" style="top:40%; left:85%; animation-delay:1.4s;"></div>
+      </div>
+      <img class="sonar-mark-img" src="assets/oim-logo.svg" alt="O.I.M. — Ocean in Motion">
+    </div>
+
+    <div class="hero-copy">
+      <div class="eyebrow">OCEAN IN MOTION</div>
+      <h1>O.I.M.</h1>
+      <p class="hero-statement">The business growth agency behind your marketing.</p>
+      <div class="hero-actions">
+        <a href="packages.html" class="btn btn-primary">See packages</a>
+        <a href="about.html" class="btn btn-ghost">Our approach</a>
+      </div>
+    </div>
   </div>
 </header>
 
 <section class="reveal">
-  <div class="section-inner contact-grid">
-
-    <div class="direct-card">
-      <h3>Direct</h3>
-      <p>Prefer email? Reach out directly and expect a reply within 1–2 business days.</p>
-
-      <div class="email-row">
-        <a class="email-link" href="mailto:oceaninmotionco@gmail.com" id="emailLink">oceaninmotionco@gmail.com</a>
-        <button type="button" class="copy-btn" id="copyEmailBtn">Copy</button>
+  <div class="section-inner">
+    <div class="engine-intro">
+      <div class="eyebrow">How growth actually works</div>
+      <h2>Three disciplines. One engine.</h2>
+      <p>Most businesses end up hiring a strategist, a designer, and a developer separately. Ocean In Motion runs all three as one connected engine, so every decision compounds instead of competing.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <span class="mono-tag">01 — STRATEGY</span>
+        <h3>Strategy &amp; Operations</h3>
+        <p>A clear growth strategy and streamlined systems that stop leads from slipping through the cracks.</p>
       </div>
-
-      <p>Based in the U.S. · Working with clients remotely and on-site.</p>
-
-      <div class="social-row">
-        <a href="https://www.instagram.com/_ocean.in.motion_?igsh=a2xraTNjNDZ5dTBw&utm_source=qr" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="5"/>
-            <circle cx="12" cy="12" r="4.2"/>
-            <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="https://www.facebook.com/share/18btiiej9u/?mibextid=wwXIfr" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 8.5h2V5h-2.3A3.7 3.7 0 0 0 11 8.7V11H8.5v3.5H11V21h3.2v-6.5h2.4l.5-3.5h-2.9V9c0-.3.2-.5.5-.5Z"/>
-          </svg>
-        </a>
-        <a href="https://www.tiktok.com/@0cean_in_m0ti0n?_r=1&_t=ZP-97nM4iSoTzr" target="_blank" rel="noopener" class="social-btn" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 4v10.4a3.3 3.3 0 1 1-2.6-3.22"/>
-            <path d="M14 4c.35 2.7 2.1 4.55 4.6 4.85"/>
-          </svg>
-        </a>
-        <a href="https://www.linkedin.com/in/ocean-saywack" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="4"/>
-            <circle cx="7.8" cy="8" r="0.9" fill="currentColor" stroke="none"/>
-            <path d="M7.8 11v6"/>
-            <path d="M12 17v-3.5c0-1.4 1-2.5 2.3-2.5s2.2 1 2.2 2.5V17"/>
-            <path d="M12 11v6"/>
-          </svg>
-        </a>
+      <div class="pillar">
+        <span class="mono-tag">02 — BRAND &amp; CREATIVE</span>
+        <h3>Brand &amp; Creative</h3>
+        <p>A brand customers recognize, remember, and trust.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono-tag">03 — TECHNOLOGY</span>
+        <h3>Technology &amp; Automation</h3>
+        <p>O.I.M. handles your websites, AI, and automation—so you can focus on growth.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <!--
-      Web3Forms: submits via JS fetch to the Web3Forms API using the access
-      key below. On success the visitor is redirected to /thank-you; if
-      JS is unavailable, the form still posts directly to Web3Forms as a
-      plain HTML form submission.
-    -->
-    <form class="oim-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="04c62554-8db9-4476-889e-ea5f920d39cd">
-      <input type="hidden" name="subject" value="New inquiry from the Ocean In Motion website">
-      <input type="hidden" name="from_name" value="O.I.M. Website">
-      <p class="hp-field"><label>Don't fill this out if you're human: <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label></p>
+<section class="philosophy reveal">
+  <div class="eyebrow">The philosophy</div>
+  <h2>Not more marketing. <span class="accent" style="color:var(--sonar); font-style:italic;">A better foundation.</span></h2>
+  <p class="lead">We build the foundation first, so when marketing runs, it works seamlessly.</p>
+  <div class="foundation-pieces">
+    <span>Brand clarity</span>
+    <span>Website performance</span>
+    <span>Systems &amp; technology</span>
+    <span>Aligned strategy</span>
+  </div>
+</section>
 
-      <div class="row-2">
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
+<section class="reveal">
+  <div class="section-inner">
+    <div class="engine-intro" style="margin-bottom:0;">
+      <div class="eyebrow">What's included</div>
+      <h2>Everything grows together.</h2>
+      <p>One coordinated service.</p>
+      <div class="chip-cloud">
+        <button type="button" class="chip" data-term="branding">Branding</button>
+        <button type="button" class="chip" data-term="websites">Websites</button>
+        <button type="button" class="chip" data-term="seo">SEO</button>
+        <button type="button" class="chip" data-term="geo">GEO</button>
+        <button type="button" class="chip" data-term="social">Social Media</button>
+        <button type="button" class="chip" data-term="ai-automation">AI &amp; Automation</button>
+        <button type="button" class="chip" data-term="marketing-materials">Marketing Materials</button>
+        <button type="button" class="chip" data-term="content-creation">Content Creation</button>
+        <button type="button" class="chip" data-term="tech-consulting">Technology Consulting</button>
+        <button type="button" class="chip" data-term="business-strategy">Business Strategy</button>
+        <button type="button" class="chip" data-term="community-management">Community Management</button>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="field">
-        <label for="project">Project type</label>
-        <select id="project" name="project">
-          <option value="Anchor — Foundation Package">Anchor — Foundation Package</option>
-          <option value="Harbor — Website Package">Harbor — Website Package</option>
-          <option value="Current — Growth Package">Current — Growth Package</option>
-          <option value="Tide — Social Media Management">Tide — Social Media Management</option>
-          <option value="Fleet — Partnership Package">Fleet — Partnership Package</option>
-          <option value="Horizon — Business Growth Partnership">Horizon — Business Growth Partnership</option>
-          <option value="Add-on / specialty request">Add-on / specialty request</option>
-          <option value="Not sure yet">Not sure yet</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" required placeholder="Tell me a bit about the project..."></textarea>
-      </div>
-
-      <p class="form-error" id="formError" style="display:none;">Something went wrong sending your message — please try again or email us directly at oceaninmotionco@gmail.com.</p>
-
-      <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send message</button>
-    </form>
-
+<section class="closer reveal">
+  <div class="section-inner">
+    <div class="eyebrow" style="justify-content:center; margin-bottom:22px;">Let's build something</div>
+    <h2>Ready to build the foundation your growth stands on?</h2>
+    <div class="hero-actions">
+      <a href="contact.html" class="btn btn-primary">Start a project</a>
+      <a href="packages.html" class="btn btn-ghost">View packages &amp; add-ons</a>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="foot-brand">© <span id="year"></span> Ocean in Motion — O.I.M.</div>
   <div class="foot-links">
-    <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="packages.html">Packages</a>
+    <a href="contact.html">Contact</a>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div class="term-overlay" id="termOverlay">
+  <div class="term-modal" id="termModal" role="dialog" aria-modal="true" aria-labelledby="termTitle">
+    <button class="term-close" id="termClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <div class="term-eyebrow">Definition</div>
+    <h3 class="term-title" id="termTitle"></h3>
+    <p class="term-desc" id="termDesc"></p>
+  </div>
+</div>
+
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+(function(){
+  var terms = {
+    'branding': { title: 'Branding', desc: 'Creating a recognizable identity that builds trust and makes your business memorable.' },
+    'websites': { title: 'Websites', desc: 'Building fast, modern websites designed to convert visitors into customers.' },
+    'seo': { title: 'SEO', desc: 'Optimizing your website so customers can find you through search engines like Google.' },
+    'geo': { title: 'GEO', desc: 'Optimizing your business and content to be found by AI search tools and generative search experiences.' },
+    'social': { title: 'Social Media', desc: 'Creating and managing content that keeps your business visible and connected with your audience.' },
+    'ai-automation': { title: 'AI & Automation', desc: 'Using AI and automated workflows to save time, reduce repetitive tasks, and improve efficiency.' },
+    'marketing-materials': { title: 'Marketing Materials', desc: 'Designing the print and digital assets your business needs, from business cards to brochures and signage.' },
+    'content-creation': { title: 'Content Creation', desc: 'Producing photos, videos, graphics, and written content that tells your story and drives engagement.' },
+    'tech-consulting': { title: 'Technology Consulting', desc: 'Helping you choose, connect, and implement the right technology to support your business.' },
+    'business-strategy': { title: 'Business Strategy', desc: 'Developing clear plans and systems that help your business grow with confidence.' },
+    'community-management': { title: 'Community Management', desc: 'Managing comments, messages, and conversations that turn followers into loyal customers.' }
+  };
 
-  // Pre-select the project dropdown when arriving from a "Request Proposal" button
-  (function () {
-    var packageMap = {
-      anchor: 'Anchor — Foundation Package',
-      harbor: 'Harbor — Website Package',
-      current: 'Current — Growth Package',
-      tide: 'Tide — Social Media Management',
-      fleet: 'Fleet — Partnership Package',
-      horizon: 'Horizon — Business Growth Partnership'
-    };
-    var params = new URLSearchParams(window.location.search);
-    var pkg = params.get('package');
-    if (pkg && packageMap[pkg]) {
-      var select = document.getElementById('project');
-      select.value = packageMap[pkg];
-    }
-  })();
+  var overlay = document.getElementById('termOverlay');
+  var titleEl = document.getElementById('termTitle');
+  var descEl = document.getElementById('termDesc');
+  var closeBtn = document.getElementById('termClose');
 
-  // copy email to clipboard
-  const copyBtn = document.getElementById('copyEmailBtn');
-  const emailAddress = 'oceaninmotionco@gmail.com';
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(emailAddress).then(() => {
-      copyBtn.textContent = 'Copied';
-      copyBtn.classList.add('copied');
-      setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000);
-    });
+  function openTerm(key){
+    var t = terms[key];
+    if(!t) return;
+    titleEl.textContent = t.title;
+    descEl.textContent = t.desc;
+    overlay.classList.add('show');
+  }
+  function closeTerm(){
+    overlay.classList.remove('show');
+  }
+
+  document.querySelectorAll('.chip[data-term]').forEach(function(chip){
+    chip.addEventListener('click', function(){ openTerm(chip.getAttribute('data-term')); });
   });
-
-  // Web3Forms submission
-  const form = document.getElementById('contactForm');
-  const errorEl = document.getElementById('formError');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    errorEl.style.display = 'none';
-    const submitBtn = form.querySelector('button[type=submit]');
-    const originalLabel = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          window.location.href = 'thank-you';
-        } else {
-          throw new Error(data.message || 'Submission failed');
-        }
-      })
-      .catch(() => {
-        errorEl.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalLabel;
-      });
-  });
+  closeBtn.addEventListener('click', closeTerm);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeTerm(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeTerm(); });
+})();
 </script>
+
 <script src="js/chatbot.js"></script>
 </body>
 </html>
