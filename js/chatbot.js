@@ -4,13 +4,20 @@
 (function () {
   var CONTACT_EMAIL = 'oceaninmotionco@gmail.com';
 
+  // Site uses clean URLs: root index.html lives at "/", every other page
+  // lives one folder deep (e.g. "/packages/index.html" served as "/packages/").
+  // This widget's markup is shared across every depth, so links need a
+  // relative prefix that adapts to wherever the current page actually is.
+  var _p = window.location.pathname.replace(/index\.html$/, '');
+  var BASE = /\/(about|packages|contact|thank-you)\/?$/.test(_p) ? '../' : '';
+
   // ---------- conversation tree ----------
   var quiz = {
     start: {
       message: "Hey, I'm Motion Bot 🌊 I can help you find the right fit — mind if I ask a few quick questions?",
       options: [
         { label: "Sure, let's do it", next: 'stage' },
-        { label: 'Just show me the packages', action: 'goto', url: 'packages.html#core-packages' },
+        { label: 'Just show me the packages', action: 'goto', url: BASE + 'packages/#core-packages' },
         { label: "I'd rather just email you", next: 'unsure' }
       ]
     },
@@ -65,55 +72,55 @@
       name: 'Anchor — Foundation Package',
       desc: 'Sounds like you need a brand that looks as established as your business really is — logo, identity, and the essentials to launch with credibility.',
       addon: 'Marketing Materials (business cards, signage) and Content Creation (photography) tend to pair well here.',
-      link: 'packages.html#pkg-anchor'
+      link: BASE + 'packages/#pkg-anchor'
     },
     website: {
       name: 'Harbor — Website Package',
       desc: 'A professional site built to be found, load fast, and actually convert visitors into leads.',
       addon: 'Ecommerce, booking systems, and ongoing website maintenance are the most common add-ons.',
-      link: 'packages.html#pkg-harbor'
+      link: BASE + 'packages/#pkg-harbor'
     },
     'starter-bundle': {
       name: 'Anchor + Harbor',
       desc: 'If you need both, most new businesses start with Anchor for the brand itself, then move straight into Harbor so the site matches from day one.',
       addon: 'Bundling both up front usually saves a round of revisions later, since the site gets built around a brand that already exists.',
-      link: 'packages.html#pkg-anchor'
+      link: BASE + 'packages/#pkg-anchor'
     },
     growth: {
       name: 'Current — Growth Package',
       desc: 'Ongoing SEO, GEO, and optimization for a business that already has its foundation in place and is ready to compound.',
       addon: 'Paid ads (Google or Meta) and monthly analytics reporting are popular additions.',
-      link: 'packages.html#pkg-current'
+      link: BASE + 'packages/#pkg-current'
     },
     'social-starter': {
       name: 'Tide — Social Media Management (Starter)',
       desc: '4 monthly posts on one platform, handled for you — a simple, consistent presence.',
       addon: 'A little Content Creation (a quick photo or reel session) makes a noticeably bigger difference at this tier.',
-      link: 'packages.html#pkg-tide'
+      link: BASE + 'packages/#pkg-tide'
     },
     'social-growth': {
       name: 'Tide — Social Media Management (Growth)',
       desc: 'A steady, well-rounded presence across two to three platforms, with reels and community management.',
       addon: 'Paid social ads layer in nicely once the organic content is already consistent.',
-      link: 'packages.html#pkg-tide'
+      link: BASE + 'packages/#pkg-tide'
     },
     'social-premium': {
       name: 'Tide — Social Media Management (Premium)',
       desc: 'Full strategy, content planning, video editing, and ad management across multiple platforms.',
       addon: 'CRM implementation or email marketing are common next steps at this level.',
-      link: 'packages.html#pkg-tide'
+      link: BASE + 'packages/#pkg-tide'
     },
     fractional: {
       name: 'Fleet — Partnership Package',
       desc: 'Ocean In Motion becomes your marketing department — strategy, brand, and execution, run together every month.',
       addon: 'AI chatbot implementation and workflow automation are popular add-ons for teams at this stage.',
-      link: 'packages.html#pkg-fleet'
+      link: BASE + 'packages/#pkg-fleet'
     },
     partnership: {
       name: 'Horizon — Business Growth Partnership',
       desc: 'Our highest level of engagement — every part of growth run by one long-term strategic partner.',
       addon: 'This tier is fully custom — add-ons just get folded directly into your proposal, nothing extra to bolt on.',
-      link: 'packages.html#pkg-horizon'
+      link: BASE + 'packages/#pkg-horizon'
     }
   };
 
@@ -256,7 +263,7 @@
         '<p>' + r.desc + '</p>' +
         '<div class="oim-result-actions">' +
           '<a class="oim-chat-btn primary" href="' + r.link + '">See package</a>' +
-          '<a class="oim-chat-btn ghost" href="contact.html">Talk to us</a>' +
+          '<a class="oim-chat-btn ghost" href="' + BASE + 'contact/">Talk to us</a>' +
         '</div>';
       body.appendChild(card);
       scrollToBottom();
@@ -305,7 +312,7 @@
         '<div class="pkg-name">Let\'s talk it through</div>' +
         '<p>Email us directly at <strong style="color:var(--ink);">' + CONTACT_EMAIL + '</strong>, or use the contact form and we\'ll walk you through it.</p>' +
         '<div class="oim-result-actions">' +
-          '<a class="oim-chat-btn primary" href="contact.html">Go to contact page</a>' +
+          '<a class="oim-chat-btn primary" href="' + BASE + 'contact/">Go to contact page</a>' +
         '</div>';
       body.appendChild(card);
       scrollToBottom();

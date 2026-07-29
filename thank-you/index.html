@@ -7,9 +7,11 @@
 <meta name="description" content="Thanks for reaching out to Ocean in Motion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="assets/oim-logo-white.svg">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/chatbot.css">
+<link rel="icon" type="image/svg+xml" href="../assets/oim-logo-white.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/chatbot.css">
 <style>
   .ty-hero{
     min-height:92vh; display:flex; align-items:center; justify-content:center; text-align:center;
@@ -69,15 +71,15 @@
 <body>
 
 <nav class="site-nav">
-  <a href="index.html" class="brand-mark"><img src="assets/oim-logo-white.svg" alt="O.I.M."><span class="brand-text">O.I.M.</span></a>
+  <a href="../" class="brand-mark"><img src="../assets/oim-logo-white.svg" alt="O.I.M."><span class="brand-text">O.I.M.</span></a>
   <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="packages.html">Packages</a>
-    <a href="contact.html" class="nav-cta">Contact</a>
+    <a href="../">Home</a>
+    <a href="../about/">About</a>
+    <a href="../packages/">Packages</a>
+    <a href="../contact/" class="nav-cta">Contact</a>
   </div>
 </nav>
 
@@ -87,7 +89,7 @@
       <div class="signal-ring r1"></div>
       <div class="signal-ring r2"></div>
       <div class="signal-ring r3"></div>
-      <img class="signal-logo" src="assets/oim-logo-white.svg" alt="O.I.M.">
+      <img class="signal-logo" src="../assets/oim-logo-white.svg" alt="O.I.M.">
       <svg class="signal-check" viewBox="0 0 60 60">
         <circle cx="30" cy="30" r="27"/>
         <path d="M18 31l8 8 16-18"/>
@@ -99,8 +101,8 @@
       <h1>Message received.</h1>
       <p>Thanks for reaching out — expect a reply within 1–2 business days. In the meantime, feel free to look around.</p>
       <div class="hero-actions" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
-        <a href="index.html" class="btn btn-primary">Back to home</a>
-        <a href="packages.html" class="btn btn-ghost">View packages</a>
+        <a href="../" class="btn btn-primary">Back to home</a>
+        <a href="../packages/" class="btn btn-ghost">View packages</a>
       </div>
     </div>
   </div>
@@ -109,13 +111,13 @@
 <footer>
   <div class="foot-brand">© <span id="year"></span> Ocean in Motion — O.I.M.</div>
   <div class="foot-links">
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
+    <a href="../about/">About</a>
+    <a href="../contact/">Contact</a>
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="../js/main.js"></script>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script src="js/chatbot.js"></script>
+<script src="../js/chatbot.js"></script>
 </body>
 </html>
