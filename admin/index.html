@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Mel Carter Photography — Content Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="../firebase-config.js"></script>
+<style>
+  :root{
+    --ink:#26241d; --cream:#faf7f1; --sage-deep:#5c6155; --gold:#bd9a4c; --line:#e3ddcc; --muted:#83806f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--cream); color:var(--ink); font-family:'Jost',sans-serif; min-height:100vh;}
+  h1,h2,h3{font-family:'Cormorant Garamond',serif; font-weight:600;}
+  .wrap{max-width:760px; margin:0 auto; padding:48px 24px 80px;}
+  .eyebrow{
+    font-family:'Jost',sans-serif; font-weight:500; font-size:11.5px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--sage-deep); margin-bottom:10px;
+  }
+  h1{font-size:28px; margin-bottom:32px;}
+
+  #loginPanel{max-width:360px; margin:80px auto;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-family:'Jost',sans-serif; font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px;}
+  .field input, .field select, .field textarea{
+    width:100%; font-family:'Jost',sans-serif; font-size:15.5px; padding:11px 13px;
+    border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink);
+  }
+  .field textarea{resize:vertical;}
+  .btn{
+    font-family:'Jost',sans-serif; font-weight:500; font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase;
+    padding:12px 22px; border-radius:999px; border:1px solid var(--sage-deep); background:var(--sage-deep); color:#fff;
+    cursor:pointer; transition:background .18s ease;
+  }
+  .btn:hover{background:var(--ink); border-color:var(--ink);}
+  .btn.secondary{background:transparent; color:var(--ink); border-color:var(--line);}
+  .btn.secondary:hover{background:rgba(93,97,85,0.08); color:var(--sage-deep); border-color:var(--sage-deep);}
+  .btn:disabled{opacity:0.5; cursor:not-allowed;}
+
+  .msg{font-size:13.5px; margin-top:10px; min-height:1.3em;}
+  .msg.ok{color:var(--sage-deep);}
+  .msg.err{color:#9c4b3f;}
+
+  #appPanel{display:none;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:36px;}
+
+  .type-toggle{display:flex; gap:10px; margin-bottom:16px;}
+  .type-toggle button{
+    flex:1; padding:10px; border:1px solid var(--line); background:#fff; border-radius:6px;
+    font-family:'Jost',sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:0.04em; cursor:pointer;
+  }
+  .type-toggle button.active{background:var(--sage-deep); color:#fff; border-color:var(--sage-deep);}
+
+  form#uploadForm{border:1px solid var(--line); border-radius:10px; padding:24px; margin-bottom:40px; background:#fff;}
+
+  .items-list{display:flex; flex-direction:column; gap:10px;}
+  .item-row{display:flex; align-items:center; gap:14px; padding:12px; border:1px solid var(--line); border-radius:8px; background:#fff;}
+  .item-row .thumb{width:56px; height:56px; border-radius:6px; object-fit:cover; background:var(--sage-deep); flex:none;}
+  .item-row .thumb.video-thumb{display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; letter-spacing:0.05em;}
+  .item-row .meta{flex:1; min-width:0;}
+  .item-row .meta .page-tag{font-family:'Jost',sans-serif; font-size:10.5px; color:var(--sage-deep); text-transform:uppercase; letter-spacing:0.06em;}
+  .item-row .meta .title{font-size:14px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .item-row .meta .caption{font-size:12.5px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .item-row .del-btn{
+    font-family:'Jost',sans-serif; font-size:11px; text-transform:uppercase; color:#9c4b3f;
+    background:none; border:1px solid #9c4b3f; border-radius:999px; padding:8px 12px; cursor:pointer; flex:none;
+  }
+  .item-row .del-btn:hover{background:#9c4b3f; color:#fff;}
+  .item-row .edit-btn{
+    font-family:'Jost',sans-serif; font-size:11px; text-transform:uppercase; color:var(--sage-deep);
+    background:none; border:1px solid var(--sage-deep); border-radius:999px; padding:8px 12px; cursor:pointer; flex:none;
+  }
+  .item-row .edit-btn:hover{background:var(--sage-deep); color:#fff;}
+
+  .hint{font-size:12.5px; color:var(--muted); margin-top:6px;}
+
+  @media (max-width:520px){
+    .wrap{padding:32px 16px 64px;}
+    #loginPanel{margin:60px auto;}
+    h1{font-size:23px;}
+    .topbar{flex-direction:column; align-items:flex-start; gap:14px; margin-bottom:28px;}
+    form#uploadForm{padding:18px;}
+    .item-row{flex-wrap:wrap; gap:10px 14px;}
+    .item-row .meta{flex-basis:100%; order:3; min-width:0;}
+    .item-row .edit-btn{order:1;}
+    .item-row .del-btn{order:2;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div id="loginPanel">
+    <div class="eyebrow">Mel Carter Photography</div>
+    <h1>Content manager</h1>
+    <form id="loginForm">
+      <div class="field">
+        <label for="li-email">Email</label>
+        <input type="email" id="li-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="li-pass">Password</label>
+        <input type="password" id="li-pass" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn">Log in</button>
+      <p class="msg" id="loginMsg"></p>
+    </form>
+  </div>
+
+  <div id="appPanel">
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">Mel Carter Photography</div>
+        <h1 style="margin-bottom:0;">Content manager</h1>
+      </div>
+      <button class="btn secondary" id="logoutBtn">Log out</button>
+    </div>
+
+    <form id="uploadForm">
+      <div class="field">
+        <label for="up-page">Page</label>
+        <select id="up-page">
+          <option value="photography">Photography</option>
+          <option value="videography">Videography</option>
+        </select>
+      </div>
+
+      <div class="type-toggle">
+        <button type="button" class="active" data-type="photo">Photo</button>
+        <button type="button" data-type="video">YouTube video</button>
+      </div>
+
+      <div class="field" id="photoField">
+        <label for="up-file">Image file(s) — select multiple to upload them all at once</label>
+        <input type="file" id="up-file" accept="image/*" multiple>
+      </div>
+
+      <div class="field" id="videoField" style="display:none;">
+        <label for="up-video">YouTube link or ID</label>
+        <input type="text" id="up-video" placeholder="https://youtube.com/watch?v=... or the video ID">
+      </div>
+
+      <div class="field">
+        <label for="up-title">Title (optional)</label>
+        <input type="text" id="up-title">
+      </div>
+      <div class="field">
+        <label for="up-caption">Caption (optional)</label>
+        <textarea id="up-caption" rows="3"></textarea>
+      </div>
+
+      <button type="submit" class="btn" id="uploadBtn">Add to site</button>
+      <p class="msg" id="uploadMsg"></p>
+      <p class="hint">If you select multiple photos, the same title/caption (if any) is applied to all of them. New items show up on the site within a few seconds.</p>
+    </form>
+
+    <h3 style="margin-bottom:16px;">Everything currently live</h3>
+    <div class="items-list" id="itemsList"></div>
+  </div>
+
+</div>
+
+<script>
+  if(!firebase.apps.length){ firebase.initializeApp(firebaseConfig); }
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
+  const loginPanel = document.getElementById('loginPanel');
+  const appPanel = document.getElementById('appPanel');
+  const loginForm = document.getElementById('loginForm');
+  const loginMsg = document.getElementById('loginMsg');
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    loginMsg.textContent = 'Logging in…';
+    loginMsg.className = 'msg';
+    const email = document.getElementById('li-email').value;
+    const pass = document.getElementById('li-pass').value;
+    auth.signInWithEmailAndPassword(email, pass).catch(err => {
+      loginMsg.textContent = 'Login failed — check your email and password.';
+      loginMsg.className = 'msg err';
+    });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+
+  auth.onAuthStateChanged((user) => {
+    if(user){
+      loginPanel.style.display = 'none';
+      appPanel.style.display = 'block';
+      loadItems();
+    } else {
+      loginPanel.style.display = 'block';
+      appPanel.style.display = 'none';
+    }
+  });
+
+  const typeButtons = document.querySelectorAll('.type-toggle button');
+  const photoField = document.getElementById('photoField');
+  const videoField = document.getElementById('videoField');
+  let currentType = 'photo';
+  typeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      typeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentType = btn.dataset.type;
+      photoField.style.display = currentType === 'photo' ? 'block' : 'none';
+      videoField.style.display = currentType === 'video' ? 'block' : 'none';
+    });
+  });
+
+  function extractYouTubeId(input){
+    input = (input || '').trim();
+    const patterns = [
+      /youtube\.com\/watch\?v=([\w-]{11})/,
+      /youtu\.be\/([\w-]{11})/,
+      /youtube\.com\/shorts\/([\w-]{11})/,
+      /youtube\.com\/embed\/([\w-]{11})/
+    ];
+    for(const p of patterns){
+      const m = input.match(p);
+      if(m) return m[1];
+    }
+    if(/^[\w-]{11}$/.test(input)) return input;
+    return null;
+  }
+
+  const uploadForm = document.getElementById('uploadForm');
+  const uploadMsg = document.getElementById('uploadMsg');
+  const uploadBtn = document.getElementById('uploadBtn');
+
+  uploadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    uploadBtn.disabled = true;
+    uploadMsg.className = 'msg';
+
+    const page = document.getElementById('up-page').value;
+    const title = document.getElementById('up-title').value.trim();
+    const caption = document.getElementById('up-caption').value.trim();
+
+    try{
+      if(currentType === 'photo'){
+        const fileInput = document.getElementById('up-file');
+        const files = Array.from(fileInput.files);
+        if(files.length === 0){ throw new Error('Choose at least one image file first.'); }
+
+        for(let i = 0; i < files.length; i++){
+          const file = files[i];
+          uploadMsg.textContent = files.length > 1
+            ? `Uploading photo ${i + 1} of ${files.length}…`
+            : 'Uploading photo…';
+          const path = 'uploads/' + page + '/' + Date.now() + '_' + i + '_' + file.name.replace(/[^\w.-]/g, '_');
+          const ref = storage.ref().child(path);
+          await ref.put(file);
+          const url = await ref.getDownloadURL();
+          await db.collection('content').add({
+            page, type: 'photo', url, storagePath: path,
+            title, caption,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+      } else {
+        const raw = document.getElementById('up-video').value;
+        const videoId = extractYouTubeId(raw);
+        if(!videoId){ throw new Error("Couldn't read a YouTube ID from that link."); }
+        uploadMsg.textContent = 'Saving video…';
+        await db.collection('content').add({
+          page, type: 'video', videoId,
+          title, caption,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+      uploadMsg.textContent = 'Added! It will show up on the site shortly.';
+      uploadMsg.className = 'msg ok';
+      uploadForm.reset();
+      document.getElementById('up-file').value = '';
+      loadItems();
+    } catch(err){
+      uploadMsg.textContent = err.message || 'Something went wrong.';
+      uploadMsg.className = 'msg err';
+    } finally {
+      uploadBtn.disabled = false;
+    }
+  });
+
+  const itemsList = document.getElementById('itemsList');
+
+  function loadItems(){
+    itemsList.innerHTML = '<p class="hint">Loading…</p>';
+    db.collection('content').orderBy('createdAt', 'desc').get().then(snapshot => {
+      itemsList.innerHTML = '';
+      if(snapshot.empty){
+        itemsList.innerHTML = '<p class="hint">Nothing uploaded yet.</p>';
+        return;
+      }
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const row = document.createElement('div');
+        row.className = 'item-row';
+
+        let thumbHtml;
+        if(d.type === 'video'){
+          thumbHtml = '<div class="thumb video-thumb">VIDEO</div>';
+        } else {
+          thumbHtml = '<img class="thumb" src="' + d.url + '" alt="">';
+        }
+
+        row.innerHTML = thumbHtml +
+          '<div class="meta">' +
+            '<div class="page-tag">' + d.page + '</div>' +
+            '<div class="title">' + (d.title || '(no title)') + '</div>' +
+            (d.caption ? '<div class="caption">' + d.caption + '</div>' : '') +
+          '</div>' +
+          '<button class="edit-btn">Edit</button>' +
+          '<button class="del-btn">Delete</button>';
+
+        row.querySelector('.del-btn').addEventListener('click', () => deleteItem(doc.id, d));
+        row.querySelector('.edit-btn').addEventListener('click', () => editItem(doc.id, d));
+        itemsList.appendChild(row);
+      });
+    });
+  }
+
+  async function deleteItem(id, data){
+    if(!confirm('Remove this from the site?')) return;
+    try{
+      if(data.type === 'photo' && data.storagePath){
+        await storage.ref().child(data.storagePath).delete().catch(() => {});
+      }
+      await db.collection('content').doc(id).delete();
+      loadItems();
+    } catch(err){
+      alert('Could not delete: ' + err.message);
+    }
+  }
+
+  async function editItem(id, data){
+    const newTitle = prompt('Title (leave blank for none):', data.title || '');
+    if(newTitle === null) return;
+    const newCaption = prompt('Caption (leave blank for none):', data.caption || '');
+    if(newCaption === null) return;
+    try{
+      await db.collection('content').doc(id).update({
+        title: newTitle.trim(),
+        caption: newCaption.trim()
+      });
+      loadItems();
+    } catch(err){
+      alert('Could not update: ' + err.message);
+    }
+  }
+</script>
+</body>
+</html>
