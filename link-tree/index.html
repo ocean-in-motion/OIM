@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ocean In Motion — Links</title>
+<meta name="description" content="Find Ocean In Motion (O.I.M.) everywhere: website, contact card, email, and social channels.">
+<meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../assets/oim-logo-white.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<style>
+  :root{
+    --abyss:#060A10; --panel:#0D151E; --panel-2:#111B26;
+    --ink:#F4F6F5; --dim:rgba(244,246,245,.62); --dim2:rgba(244,246,245,.38);
+    --line:rgba(244,246,245,.12); --line-strong:rgba(244,246,245,.22);
+    --sonar:#3DBCCA; --sonar-dim:rgba(61,188,202,.35); --sonar-glow:rgba(61,188,202,.18);
+    --font-display:'Space Grotesk',sans-serif; --font-body:'Manrope',sans-serif; --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    background:var(--abyss); color:var(--ink); font-family:var(--font-body);
+    min-height:100svh; overflow-x:hidden; -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(ellipse 70% 45% at 50% 0%, rgba(61,188,202,.10), transparent 70%);
+    background-repeat:no-repeat;
+  }
+  a{ color:inherit; text-decoration:none; -webkit-tap-highlight-color:transparent; }
+
+  .lt{
+    max-width:440px; margin:0 auto; padding:36px 20px 40px;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+  }
+
+  /* ---------- sonar logo (same animation as the home hero) ---------- */
+  .sonar-stage{
+    position:relative; width:min(66vw,270px); height:min(66vw,270px); margin:0 auto 10px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sonar-ring{
+    position:absolute; border:1px solid var(--line); border-radius:50%;
+    opacity:0; animation:ringIn .9s ease forwards;
+  }
+  .sonar-ring.r1{ inset:34%; animation-delay:.1s; }
+  .sonar-ring.r2{ inset:20%; animation-delay:.25s; }
+  .sonar-ring.r3{ inset:6%;  animation-delay:.4s; }
+  .sonar-ring.r4{ inset:0%;  animation-delay:.55s; border-color:var(--line-strong); }
+  @keyframes ringIn{ from{ opacity:0; transform:scale(.85); } to{ opacity:1; transform:scale(1); } }
+
+  .sonar-sweep{
+    position:absolute; inset:0; border-radius:50%; overflow:hidden;
+    opacity:0; animation:sweepIn .6s ease forwards .7s;
+  }
+  @keyframes sweepIn{ to{ opacity:1; } }
+  .sonar-sweep::before{
+    content:''; position:absolute; inset:-2%;
+    background:conic-gradient(from 0deg, var(--sonar-glow) 0deg, transparent 55deg 360deg);
+    animation:spin 4.5s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .sonar-dot{
+    position:absolute; width:5px; height:5px; border-radius:50%; background:var(--sonar);
+    opacity:0; box-shadow:0 0 10px 2px var(--sonar-glow); animation:dotIn .5s ease forwards;
+  }
+  @keyframes dotIn{ to{ opacity:1; } }
+
+  .sonar-mark-img{
+    position:relative; z-index:2; width:46%; height:46%;
+    opacity:0; clip-path:circle(0% at 50% 50%);
+    animation:logoReveal 1.4s cubic-bezier(.4,0,.2,1) forwards 1.1s;
+  }
+  @keyframes logoReveal{
+    0%{ opacity:0; clip-path:circle(0% at 50% 50%); filter:drop-shadow(0 0 0 rgba(61,188,202,0)); }
+    35%{ opacity:1; }
+    100%{ opacity:1; clip-path:circle(52% at 50% 50%); filter:drop-shadow(0 0 22px var(--sonar-glow)); }
+  }
+
+  /* ---------- text + buttons, staged in after the logo ---------- */
+  .fade{ opacity:0; transform:translateY(14px); animation:fadeUp .7s ease forwards; }
+  @keyframes fadeUp{ to{ opacity:1; transform:translateY(0); } }
+
+  .lt-name{ font-family:var(--font-display); font-size:26px; font-weight:600; letter-spacing:-.01em; animation-delay:2.2s; }
+  .lt-tag{ color:var(--dim); font-size:14.5px; line-height:1.5; margin:6px 0 26px; max-width:320px; animation-delay:2.3s; }
+
+  .links{ width:100%; display:flex; flex-direction:column; gap:12px; }
+
+  /* featured button */
+  .btn-main{
+    position:relative; display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:22px 24px; border-radius:18px; text-align:left; overflow:hidden;
+    background:linear-gradient(135deg,#3DBCCA 0%,#2FB4A8 100%); color:#04141A;
+    box-shadow:0 0 0 0 rgba(61,188,202,.55), 0 10px 30px -8px rgba(61,188,202,.45);
+    animation:fadeUp .7s ease forwards 2.4s, mainGlow 2.8s ease-in-out infinite 3.2s;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn-main::after{
+    content:''; position:absolute; top:0; bottom:0; width:60%; left:-80%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);
+    transform:skewX(-18deg); animation:shine 4.5s ease-in-out infinite 3.6s;
+  }
+  @keyframes shine{ 0%{ left:-80%; } 35%,100%{ left:140%; } }
+  @keyframes mainGlow{
+    0%,100%{ box-shadow:0 0 0 0 rgba(61,188,202,.5), 0 10px 30px -8px rgba(61,188,202,.45); }
+    50%{ box-shadow:0 0 0 9px rgba(61,188,202,0), 0 10px 38px -6px rgba(61,188,202,.7); }
+  }
+  .btn-main:hover{ transform:translateY(-3px); }
+  .btn-main:active{ transform:scale(.985); }
+  .btn-main .eyebrow{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; opacity:.75; display:block; margin-bottom:5px; }
+  .btn-main .title{ font-family:var(--font-display); font-size:21px; font-weight:700; letter-spacing:-.01em; line-height:1.15; display:block; }
+  .btn-main .arrow{
+    flex-shrink:0; width:42px; height:42px; border-radius:50%; background:rgba(4,20,26,.14);
+    display:flex; align-items:center; justify-content:center; transition:transform .25s ease;
+  }
+  .btn-main:hover .arrow{ transform:translateX(4px); }
+  .btn-main .arrow svg{ width:20px; height:20px; }
+
+  /* secondary buttons */
+  .btn{
+    display:flex; align-items:center; gap:14px; padding:15px 18px; border-radius:16px; text-align:left;
+    background:var(--panel); border:1px solid var(--line);
+    font-weight:600; font-size:15.5px;
+    transition:border-color .2s ease, transform .2s ease, background .2s ease, color .2s ease;
+  }
+  .btn svg.ico{ width:22px; height:22px; flex-shrink:0; color:var(--sonar); }
+  .btn .lbl{ flex:1; }
+  .btn .sub{ display:block; font-weight:500; font-size:12px; color:var(--dim2); margin-top:2px; font-family:var(--font-mono); letter-spacing:.02em; }
+  .btn .go{ width:16px; height:16px; color:var(--dim2); flex-shrink:0; transition:transform .2s ease, color .2s ease; }
+  .btn:hover{ border-color:var(--sonar); background:var(--panel-2); transform:translateY(-2px); }
+  .btn:hover .go{ color:var(--sonar); transform:translateX(3px); }
+  .btn:active{ transform:scale(.985); }
+  .btn:focus-visible, .btn-main:focus-visible{ outline:2px solid var(--sonar); outline-offset:3px; }
+
+  .btn.d1{ animation-delay:2.6s; } .btn.d2{ animation-delay:2.72s; } .btn.d3{ animation-delay:2.84s; }
+  .btn.d4{ animation-delay:2.96s; } .btn.d5{ animation-delay:3.08s; } .btn.d6{ animation-delay:3.2s; }
+
+  .lt-foot{ margin-top:34px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim2); animation-delay:3.4s; }
+
+  @media (max-height:700px){ .sonar-stage{ width:min(54vw,210px); height:min(54vw,210px); } .lt{ padding-top:24px; } }
+</style>
+</head>
+<body>
+
+<main class="lt">
+
+  <div class="sonar-stage" aria-hidden="true">
+    <div class="sonar-ring r1"></div>
+    <div class="sonar-ring r2"></div>
+    <div class="sonar-ring r3"></div>
+    <div class="sonar-ring r4"></div>
+    <div class="sonar-sweep"></div>
+    <div class="sonar-dot" style="top:18%; left:62%; animation-delay:.9s;"></div>
+    <div class="sonar-dot" style="top:70%; left:30%; animation-delay:1.05s;"></div>
+    <div class="sonar-dot" style="top:40%; left:85%; animation-delay:1.2s;"></div>
+    <img class="sonar-mark-img" src="../assets/oim-logo.svg" alt="">
+  </div>
+
+  <h1 class="lt-name fade">Ocean In Motion</h1>
+  <p class="lt-tag fade">The business growth agency behind your marketing.</p>
+
+  <nav class="links" aria-label="Ocean In Motion links">
+
+    <a class="btn-main fade" href="../">
+      <span>
+        <span class="eyebrow">ocean-in-motion.com</span>
+        <span class="title">Visit My Website</span>
+      </span>
+      <span class="arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="btn fade d1" href="ocean-in-motion.vcf" download="Ocean-In-Motion.vcf">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6"/><path d="M18 14v6"/><path d="M15.2 17.4 18 20.2l2.8-2.8"/></svg>
+      <span class="lbl">Save my contact<span class="sub">Download contact card</span></span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v10"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+    </a>
+
+    <a class="btn fade d2" href="mailto:oceaninmotionco@gmail.com">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 5.5L20 8"/></svg>
+      <span class="lbl">Email me<span class="sub">oceaninmotionco@gmail.com</span></span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a class="btn fade d3" href="https://www.instagram.com/_ocean.in.motion_?igsh=a2xraTNjNDZ5dTBw&utm_source=qr" target="_blank" rel="noopener">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+      <span class="lbl">Instagram</span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a class="btn fade d4" href="https://www.facebook.com/share/18btiiej9u/?mibextid=wwXIfr" target="_blank" rel="noopener">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8.5h2V5h-2.3A3.7 3.7 0 0 0 11 8.7V11H8.5v3.5H11V21h3.2v-6.5h2.4l.5-3.5h-2.9V9c0-.3.2-.5.5-.5Z"/></svg>
+      <span class="lbl">Facebook</span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a class="btn fade d5" href="https://www.tiktok.com/@0cean_in_m0ti0n?_r=1&_t=ZP-97nM4iSoTzr" target="_blank" rel="noopener">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.4a3.3 3.3 0 1 1-2.6-3.22"/><path d="M14 4c.35 2.7 2.1 4.55 4.6 4.85"/></svg>
+      <span class="lbl">TikTok</span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+
+  </nav>
+
+  <p class="lt-foot fade">&copy; 2026 O.I.M.</p>
+</main>
+
+</body>
+</html>
