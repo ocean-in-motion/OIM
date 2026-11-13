@@ -31,7 +31,11 @@ function withTimeout(promise, ms) {
 }
 
 export default async () => {
-  const { FB_TOKEN, IG_USER_ID, ANTHROPIC_API_KEY } = process.env;
+  // trim: pasted values often carry a stray space, newline or quotes
+  const clean = (v) => (v || "").trim().replace(/^["']|["']$/g, "");
+  const FB_TOKEN = clean(process.env.FB_TOKEN), IG_USER_ID = clean(process.env.IG_USER_ID);
+  const ANTHROPIC_API_KEY = clean(process.env.ANTHROPIC_API_KEY);
+  process.env.ANTHROPIC_API_KEY = ANTHROPIC_API_KEY;
   const target = process.env.IG_TARGET || "dj_narci";
   const ver = process.env.GRAPH_VER || "v27.0";
   if (!FB_TOKEN || !IG_USER_ID) return json({ error: "Missing FB_TOKEN or IG_USER_ID" }, 500, false);
@@ -48,7 +52,9 @@ export default async () => {
     if (!res.ok || body.error) {
       // Common causes: token expired, or the target account is personal or private.
       console.error("Instagram error:", JSON.stringify(body.error || body));
-      return json({ error: "Instagram request failed" }, 502, false);
+      // Meta's own message (never contains the token) so the problem is visible right here
+      const e = body.error || {};
+      return json({ error: "Instagram request failed", meta: { message: e.message, type: e.type, code: e.code, subcode: e.error_subcode } }, 502, false);
     }
     posts = body.business_discovery?.media?.data || [];
   } catch (err) {
