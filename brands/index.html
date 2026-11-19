@@ -347,6 +347,24 @@
   prev.addEventListener('click', function(){ track.scrollBy({ left: -step(), behavior: 'smooth' }); });
   next.addEventListener('click', function(){ track.scrollBy({ left: step(), behavior: 'smooth' }); });
   track.addEventListener('scroll', function(){ window.requestAnimationFrame(update); }, { passive: true });
+
+  // Mouse wheel / trackpad over the cards scrolls the row (one card per flick) instead of the page.
+  // At either end of the row the wheel goes back to scrolling the page, so you never get stuck.
+  var acc = 0, locked = false, resetT;
+  track.addEventListener('wheel', function(e){
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;          // already a sideways gesture: native
+    var dir = e.deltaY > 0 ? 1 : -1;
+    var max = track.scrollWidth - track.clientWidth;
+    if ((dir > 0 && max - track.scrollLeft < 4) || (dir < 0 && track.scrollLeft < 4)) return;  // at an end: let page scroll
+    e.preventDefault();
+    if (locked) return;
+    acc += e.deltaY;
+    clearTimeout(resetT); resetT = setTimeout(function(){ acc = 0; }, 150);
+    if (Math.abs(acc) < 30) return;
+    acc = 0; locked = true;
+    track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+    setTimeout(function(){ locked = false; }, 450);
+  }, { passive: false });
   window.addEventListener('resize', update);
   update();
 })();
