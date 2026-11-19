@@ -6,7 +6,7 @@
 
   // Motion Bot's AI brain. Paste the deployed Cloudflare Worker URL here (see /worker/README.md).
   // While this is empty, Motion Bot runs as the guided quiz only and hides the text box.
-  var CHAT_API = '';
+  var CHAT_API = 'https://oim-motion-bot.netlify.app/.netlify/functions/chat';
   var history = [];
   var sending = false;
 
