@@ -1,9 +1,9 @@
-// Motion Bot proxy — Cloudflare Worker.
+// Motion Bot proxy — Netlify Function.
 // Keeps the Anthropic API key off the public site. The website posts the
 // conversation here; this worker adds the system prompt + key and returns a reply.
 //
-// Secrets / vars (set in Cloudflare, never in the repo):
-//   ANTHROPIC_API_KEY  (secret, required)
+// Environment variables (set in the Netlify dashboard, never in the repo):
+//   ANTHROPIC_API_KEY  (required)
 //   MODEL              (optional, default below)
 
 const ALLOWED_ORIGINS = [
@@ -77,8 +77,10 @@ function limited(ip) {
   return arr.length > RATE_LIMIT;
 }
 
-export default {
-  async fetch(request, env) {
+const env = new Proxy({}, { get: (_, k) => process.env[k] });
+
+export default async (request) => {
+  {
     const origin = request.headers.get('Origin') || '';
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
     if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405, origin);
