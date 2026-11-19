@@ -9,7 +9,7 @@
   // This widget's markup is shared across every depth, so links need a
   // relative prefix that adapts to wherever the current page actually is.
   var _p = window.location.pathname.replace(/index\.html$/, '');
-  var BASE = /\/(about|packages|contact|thank-you)\/?$/.test(_p) ? '../' : '';
+  var BASE = /\/(about|brands|packages|contact|thank-you)\/?$/.test(_p) ? '../' : '';
 
   // ---------- conversation tree ----------
   var quiz = {

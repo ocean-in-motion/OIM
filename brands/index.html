@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Brands — O.I.M.</title>
+<meta name="description" content="Every brand and website built under Ocean In Motion. Scroll through the work and click any block to visit the live site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../assets/oim-logo-white.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/chatbot.css">
+<style>
+  .brands-hero{ padding-top:170px; padding-bottom:30px; }
+  .brands-hero h1{ font-size:clamp(36px,6vw,64px); max-width:760px; }
+  .brands-hero .lede{ max-width:600px; color:var(--dim); font-size:clamp(15px,1.6vw,18px); margin-top:22px; }
+
+  /* ---------- carousel ---------- */
+  .brand-stage{ position:relative; padding:34px 0 20px; --edge:max(var(--pad), calc((100vw - var(--maxw)) / 2)); }
+  .brand-track{
+    display:flex; gap:24px; overflow-x:auto; overflow-y:hidden;
+    padding:18px var(--edge) 34px; scroll-snap-type:x mandatory; scroll-padding-inline:var(--edge);
+    scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  }
+  .brand-track::-webkit-scrollbar{ display:none; }
+
+  .brand-card{
+    flex:0 0 auto; width:min(80vw,440px); scroll-snap-align:start;
+    display:flex; flex-direction:column; color:inherit; text-decoration:none;
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg);
+    padding:14px 14px 22px; position:relative;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), border-color .25s ease, box-shadow .35s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .brand-card:hover, .brand-card:focus-visible{
+    transform:translateY(-8px); border-color:var(--sonar);
+    box-shadow:0 24px 50px -22px rgba(61,188,202,.45);
+  }
+  .brand-card:focus-visible{ outline:2px solid var(--sonar); outline-offset:4px; }
+
+  /* browser window mockup */
+  .browser{
+    border-radius:12px; overflow:hidden; background:#0A1017; border:1px solid var(--line);
+  }
+  .browser-bar{
+    display:flex; align-items:center; gap:10px; padding:9px 12px; background:#101A25;
+    border-bottom:1px solid var(--line);
+  }
+  .dots{ display:flex; gap:5px; flex-shrink:0; }
+  .dots i{ width:8px; height:8px; border-radius:50%; background:rgba(244,246,245,.22); display:block; }
+  .url-pill{
+    flex:1; min-width:0; text-align:center; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em;
+    color:var(--dim); background:rgba(244,246,245,.06); border-radius:6px; padding:4px 8px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .shot{
+    position:relative; aspect-ratio:16/10; overflow:hidden; container-type:size; background:#0A1017;
+  }
+  .shot .ph{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    text-align:center; padding:18px;
+    background:radial-gradient(ellipse at 50% 0%, rgba(61,188,202,.16), transparent 70%), #0A1017;
+  }
+  .ph b{ font-family:var(--font-display); font-size:clamp(20px,2.6vw,26px); font-weight:600; letter-spacing:-.01em; }
+  .ph span{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--sonar); }
+  .shot img{
+    position:absolute; top:0; left:0; width:100%; height:auto; display:block;
+    transform:translateY(0); transition:transform 7s cubic-bezier(.4,0,.2,1);
+  }
+  /* long page screenshots slowly scroll on hover, like browsing the site */
+  .brand-card:hover .shot img, .brand-card:focus-visible .shot img{
+    transform:translateY(min(0px, calc(-100% + 100cqh)));
+  }
+
+  .brand-meta{ padding:18px 8px 0; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .brand-cat{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sonar); }
+  .brand-name{ font-family:var(--font-display); font-size:24px; font-weight:600; letter-spacing:-.015em; line-height:1.15; }
+  .brand-desc{ color:var(--dim); font-size:14.5px; line-height:1.55; }
+  .brand-visit{
+    margin-top:auto; padding-top:14px; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.1em;
+    text-transform:uppercase; display:flex; align-items:center; gap:8px; color:var(--ink);
+  }
+  .brand-visit svg{ width:14px; height:14px; transition:transform .25s ease; }
+  .brand-card:hover .brand-visit svg{ transform:translate(3px,-3px); }
+  .brand-card[data-pending] .brand-visit{ color:var(--dim2); }
+
+  /* controls */
+  .brand-controls{
+    padding:0 var(--edge);
+    display:flex; align-items:center; gap:22px;
+  }
+  .brand-count{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; color:var(--dim); min-width:64px; }
+  .brand-count b{ color:var(--ink); font-weight:600; }
+  .brand-progress{ flex:1; height:2px; background:var(--line); border-radius:2px; overflow:hidden; }
+  .brand-progress i{ display:block; height:100%; width:0; background:var(--sonar); transition:width .25s ease; }
+  .brand-arrows{ display:flex; gap:10px; }
+  .brand-arrow{
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--line-strong); background:transparent; color:var(--ink);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease, opacity .2s ease;
+  }
+  .brand-arrow:hover{ border-color:var(--sonar); color:var(--sonar); transform:translateY(-2px); }
+  .brand-arrow:disabled{ opacity:.3; cursor:default; transform:none; border-color:var(--line); color:var(--ink); }
+  .brand-arrow:focus-visible{ outline:2px solid var(--sonar); outline-offset:3px; }
+  .brand-arrow svg{ width:18px; height:18px; }
+  @media (max-width:600px){ .brand-arrows{ display:none; } .brand-track{ gap:16px; } }
+
+  .brands-note{ max-width:var(--maxw); margin:0 auto; padding:8px var(--pad) 0; color:var(--dim2); font-size:13px; font-family:var(--font-mono); letter-spacing:.04em; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../" class="brand-mark"><img src="../assets/oim-logo-white.svg" alt="O.I.M."><span class="brand-text">O.I.M.</span></a>
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="nav-links">
+    <a href="../">Home</a>
+    <a href="../about/">About</a>
+    <a href="../brands/" class="current">Brands</a>
+    <a href="../packages/">Packages</a>
+    <a href="../contact/" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="depth-rail">
+  <div class="track"><div class="fill"></div><div class="readout">0 FT</div></div>
+</div>
+
+<header class="hero brands-hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Our brands</div>
+    <h1>Built under one roof.</h1>
+    <p class="lede">Every brand and website we've built, in one place. Scroll through the work and click any block to visit the live site.</p>
+  </div>
+</header>
+
+<section class="brand-stage reveal" aria-label="Our brands">
+  <div class="brand-track" id="brandTrack">
+
+    <a class="brand-card" href="https://abilityplumbco.com" target="_blank" rel="noopener">
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">abilityplumbco.com</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Ability Plumbing &amp; Construction</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/ability-plumbing.jpg" alt="Ability Plumbing &amp; Construction website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Home services</div>
+        <div class="brand-name">Ability Plumbing &amp; Construction</div>
+        <p class="brand-desc">Plumbing, construction and water filtration for South Atlanta.</p>
+        <div class="brand-visit">Visit site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></div>
+      </div>
+    </a>
+
+    <a class="brand-card" href="https://kcandroscoe.com" target="_blank" rel="noopener">
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">kcandroscoe.com</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>K.C. &amp; Roscoe</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/kc-and-roscoe.jpg" alt="K.C. and Roscoe website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Personal brand</div>
+        <div class="brand-name">K.C. &amp; Roscoe</div>
+        <p class="brand-desc">A link-in-bio brand for K.C. Long, with Roscoe the raccoon as the face of it.</p>
+        <div class="brand-visit">Visit site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></div>
+      </div>
+    </a>
+
+    <a class="brand-card" href="https://cinimodagency.net" target="_blank" rel="noopener">
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">cinimodagency.net</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Cinimod</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/cinimod.jpg" alt="Cinimod website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Marketing agency</div>
+        <div class="brand-name">Cinimod</div>
+        <p class="brand-desc">AI-powered marketing and advertising out of Peachtree City.</p>
+        <div class="brand-visit">Visit site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></div>
+      </div>
+    </a>
+
+    <a class="brand-card" href="https://kmssequence.com" target="_blank" rel="noopener">
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">kmssequence.com</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>KMS Sequence</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/kms-sequence.jpg" alt="KMS Sequence website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Creative studio</div>
+        <div class="brand-name">KMS Sequence</div>
+        <p class="brand-desc">Photography, videography, editing and graphic design under one studio.</p>
+        <div class="brand-visit">Visit site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></div>
+      </div>
+    </a>
+
+    <!-- TODO: replace href="#" with the live Mel Carter Photography URL -->
+    <a class="brand-card" href="#" data-pending>
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">Mel Carter Photography</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Mel Carter Photography</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/mel-carter-photography.jpg" alt="Mel Carter Photography website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Photography</div>
+        <div class="brand-name">Mel Carter Photography</div>
+        <p class="brand-desc">Portraits, headshots, lifestyle and pet photography.</p>
+        <div class="brand-visit">Link coming soon</div>
+      </div>
+    </a>
+
+    <!-- TODO: replace href="#" with the live Narci URL -->
+    <a class="brand-card" href="#" data-pending>
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">Narci</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Narci</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/narci.jpg" alt="Narci website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Entertainment</div>
+        <div class="brand-name">Narci</div>
+        <p class="brand-desc">An interactive DJ site built around a record player.</p>
+        <div class="brand-visit">Link coming soon</div>
+      </div>
+    </a>
+
+    <!-- TODO: replace href="#" with the live Ocean Music URL -->
+    <a class="brand-card" href="#" data-pending>
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">Ocean Music</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Ocean Music</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/ocean-music.jpg" alt="Ocean Music website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Music</div>
+        <div class="brand-name">Ocean Music</div>
+        <p class="brand-desc">Songs, photos and a live remix studio.</p>
+        <div class="brand-visit">Link coming soon</div>
+      </div>
+    </a>
+
+    <!-- TODO: replace href="#" with the live Ethan's Reach URL -->
+    <a class="brand-card" href="#" data-pending>
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">Ethan's Reach</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Ethan's Reach</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/ethans-reach.jpg" alt="Ethan's Reach website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Nonprofit</div>
+        <div class="brand-name">Ethan's Reach</div>
+        <p class="brand-desc">A Georgia nonprofit's home for driver's ed courses and community safety events.</p>
+        <div class="brand-visit">Link coming soon</div>
+      </div>
+    </a>
+
+    <!-- TODO: replace href="#" with the live dealership URL -->
+    <a class="brand-card" href="#" data-pending>
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">Dealership websites</span></div>
+        <div class="shot">
+          <div class="ph" aria-hidden="true"><b>Dealership Websites</b><span>Screenshot coming</span></div>
+          <img src="../assets/brands/dealership.jpg" alt="Dealership website" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-cat">Automotive</div>
+        <div class="brand-name">Dealership Websites</div>
+        <p class="brand-desc">Inventory, financing and appointment booking for small dealers.</p>
+        <div class="brand-visit">Link coming soon</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="brand-controls">
+    <div class="brand-count" aria-live="polite"><b id="brandNow">01</b> / <span id="brandTotal">09</span></div>
+    <div class="brand-progress" aria-hidden="true"><i id="brandBar"></i></div>
+    <div class="brand-arrows">
+      <button class="brand-arrow" id="brandPrev" aria-label="Previous brand" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="brand-arrow" id="brandNext" aria-label="Next brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="closer reveal" style="text-align:center; padding-top:50px;">
+  <div class="section-inner">
+    <h2 style="font-size:clamp(24px,3.2vw,36px); max-width:640px; margin:0 auto 30px;">Want your brand on this wall?</h2>
+    <div class="hero-actions" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <a href="../packages/" class="btn btn-primary">See packages</a>
+      <a href="../contact/" class="btn btn-ghost">Let's talk</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">© <span id="year"></span> Ocean in Motion — O.I.M.</div>
+  <div class="foot-links">
+    <a href="../">Home</a>
+    <a href="../packages/">Packages</a>
+    <a href="../contact/">Contact</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+(function(){
+  var track = document.getElementById('brandTrack');
+  var cards = Array.prototype.slice.call(track.querySelectorAll('.brand-card'));
+  var now = document.getElementById('brandNow'), total = document.getElementById('brandTotal');
+  var bar = document.getElementById('brandBar'), prev = document.getElementById('brandPrev'), next = document.getElementById('brandNext');
+  total.textContent = pad(cards.length);
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  // blocks without a live link yet don't navigate
+  cards.forEach(function(c){
+    if(c.hasAttribute('data-pending')){
+      c.addEventListener('click', function(e){ e.preventDefault(); });
+    }
+  });
+
+  function step(){ return cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap || 24); }
+
+  function update(){
+    var max = track.scrollWidth - track.clientWidth;
+    // how many cards you've reached so far (a card counts once it's on screen)
+    var edge = track.getBoundingClientRect().right - 40;
+    var seen = cards.filter(function(c){ return c.getBoundingClientRect().left < edge; }).length;
+    now.textContent = pad(Math.max(1, seen));
+    bar.style.width = (max > 0 ? Math.max(8, (track.scrollLeft / max) * 100) : 100) + '%';
+    prev.disabled = track.scrollLeft < 4;
+    next.disabled = max - track.scrollLeft < 4;
+  }
+
+  prev.addEventListener('click', function(){ track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+  next.addEventListener('click', function(){ track.scrollBy({ left: step(), behavior: 'smooth' }); });
+  track.addEventListener('scroll', function(){ window.requestAnimationFrame(update); }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+<script src="../js/chatbot.js"></script>
+</body>
+</html>
