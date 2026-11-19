@@ -142,3 +142,18 @@
   .oim-chat-launcher{ right:16px; bottom:16px; }
   .oim-chat-tooltip{ right:16px; bottom:82px; max-width:160px; }
 }
+
+/* ---------- AI text input ---------- */
+.oim-chat-form{ display:flex; gap:8px; padding:10px 14px 0; border-top:1px solid var(--line); flex-shrink:0; }
+.oim-chat-input{
+  flex:1; min-width:0; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink);
+  border-radius:999px; padding:10px 16px; font:inherit; font-size:14px; outline:none;
+}
+.oim-chat-input:focus{ border-color:var(--sonar); }
+.oim-chat-send{
+  width:40px; height:40px; border-radius:50%; border:0; cursor:pointer; flex-shrink:0;
+  background:var(--sonar); color:#04141a; display:grid; place-items:center;
+}
+.oim-chat-send svg{ width:18px; height:18px; }
+.oim-chat-form + .oim-chat-footer{ border-top:0; }
+.oim-inline-link{ color:var(--sonar); text-decoration:underline; text-underline-offset:2px; }

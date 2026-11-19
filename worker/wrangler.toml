@@ -1,0 +1,6 @@
+name = "oim-motion-bot"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+# Optional: swap the model without touching code
+# [vars]
+# MODEL = "claude-haiku-5-5"

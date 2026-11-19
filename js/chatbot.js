@@ -4,6 +4,12 @@
 (function () {
   var CONTACT_EMAIL = 'oceaninmotionco@gmail.com';
 
+  // Motion Bot's AI brain. Paste the deployed Cloudflare Worker URL here (see /worker/README.md).
+  // While this is empty, Motion Bot runs as the guided quiz only and hides the text box.
+  var CHAT_API = '';
+  var history = [];
+  var sending = false;
+
   // Site uses clean URLs: root index.html lives at "/", every other page
   // lives one folder deep (e.g. "/packages/index.html" served as "/packages/").
   // This widget's markup is shared across every depth, so links need a
@@ -14,7 +20,7 @@
   // ---------- conversation tree ----------
   var quiz = {
     start: {
-      message: "Hey, I'm Motion Bot 🌊 I can help you find the right fit — mind if I ask a few quick questions?",
+      message: CHAT_API ? "Hey, I'm Motion Bot 🌊 Ask me anything about branding, websites, or growth — or tap a shortcut below." : "Hey, I'm Motion Bot 🌊 I can help you find the right fit — mind if I ask a few quick questions?",
       options: [
         { label: "Sure, let's do it", next: 'stage' },
         { label: 'Just show me the packages', action: 'goto', url: BASE + 'packages/#core-packages' },
@@ -144,6 +150,7 @@
           '</button>' +
         '</div>' +
         '<div class="oim-chat-body" id="oimChatBody"></div>' +
+        (CHAT_API ? '<form class="oim-chat-form" id="oimChatForm" autocomplete="off"><input class="oim-chat-input" id="oimChatInput" type="text" maxlength="500" placeholder="Ask me anything…" aria-label="Message Motion Bot"><button class="oim-chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></form>' : '') +
         '<div class="oim-chat-footer"><button class="oim-chat-restart" id="oimChatRestart">Start over</button></div>' +
       '</div>';
     while (wrap.firstChild) document.body.appendChild(wrap.firstChild);
@@ -157,6 +164,15 @@
     launcher.addEventListener('click', togglePanel);
     document.getElementById('oimChatCloseBtn').addEventListener('click', closePanel);
     document.getElementById('oimChatRestart').addEventListener('click', restart);
+    var form = document.getElementById('oimChatForm');
+    if (form) form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = document.getElementById('oimChatInput');
+      var text = input.value.trim();
+      if (!text || sending) return;
+      input.value = '';
+      sendFree(text);
+    });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closePanel();
     });
@@ -319,8 +335,72 @@
     });
   }
 
+  // ---------- AI conversation ----------
+  // Turns [label](https://ocean-in-motion.com/...) into safe links; everything else stays plain text.
+  function renderRich(el, text) {
+    var re = /\[([^\]]+)\]\((https:\/\/(?:www\.)?ocean-in-motion\.com[^)\s]*|\/[^)\s]*)\)/g;
+    var last = 0, m;
+    while ((m = re.exec(text))) {
+      el.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var a = document.createElement('a');
+      a.textContent = m[1];
+      var href = m[2].replace(/^https:\/\/(?:www\.)?ocean-in-motion\.com/, '');
+      a.href = href.charAt(0) === '/' ? (BASE ? BASE + href.replace(/^\//, '') : href.replace(/^\//, '')) : m[2];
+      a.className = 'oim-inline-link';
+      el.appendChild(a);
+      last = re.lastIndex;
+    }
+    el.appendChild(document.createTextNode(text.slice(last)));
+  }
+
+  function sendFree(text) {
+    clearOptions();
+    addUserMessage(text);
+    history.push({ role: 'user', content: text });
+    sending = true;
+    var typing = document.createElement('div');
+    typing.className = 'oim-msg bot oim-typing-msg';
+    typing.innerHTML = '<span class="oim-typing"><span></span><span></span><span></span></span>';
+    body.appendChild(typing);
+    scrollToBottom();
+
+    var done = function (reply, ok) {
+      typing.remove();
+      sending = false;
+      var div = document.createElement('div');
+      div.className = 'oim-msg bot';
+      renderRich(div, reply);
+      body.appendChild(div);
+      scrollToBottom();
+      if (ok) history.push({ role: 'assistant', content: reply });
+      else history.pop();
+    };
+    var fail = function (msg) {
+      done(msg || ("Hmm, I lost my connection for a second. You can try again, or reach the team directly at " + CONTACT_EMAIL + "."), false);
+    };
+
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 25000) : null;
+    fetch(CHAT_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: history }),
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (r) {
+      return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+    }).then(function (res) {
+      if (timer) clearTimeout(timer);
+      if (res.ok && res.j && res.j.reply) done(res.j.reply, true);
+      else fail(res.j && res.j.error && /Too many/.test(res.j.error) ? res.j.error : null);
+    }).catch(function () {
+      if (timer) clearTimeout(timer);
+      fail();
+    });
+  }
+
   function restart() {
     body.innerHTML = '';
+    history = [];
     lastResultKey = null;
     showStep('start');
   }
