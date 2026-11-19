@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /thank-you/
+Sitemap: https://ocean-in-motion.com/sitemap.xml
