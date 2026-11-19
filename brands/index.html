@@ -358,35 +358,31 @@
   next.addEventListener('click', function(){ track.scrollBy({ left: step(), behavior: 'smooth' }); });
   track.addEventListener('scroll', function(){ window.requestAnimationFrame(update); }, { passive: true });
 
-  // Mouse wheel / trackpad over the cards scrolls the row (smoothly, with momentum) instead of the page.
-  // At either end of the row the wheel goes back to scrolling the page, so you never get stuck.
-  var SPEED = 1.8, EASE = 0.16;
-  var target = 0, raf = null, idleT, snapT;
+  // Mouse wheel / trackpad over the cards: frictionless "ice" glide. Each flick adds velocity,
+  // which then coasts and slowly decays. At either end the wheel goes back to the page.
+  var vel = 0, raf = null, lastT = 0;
+  var PUSH = 0.09, FRICTION = 0.975, MAXV = 80;       // per-frame @60fps; closer to 1 = slipperier
   function maxLeft(){ return track.scrollWidth - track.clientWidth; }
-  function tick(){
-    var diff = target - track.scrollLeft;
-    if (Math.abs(diff) < 0.5) { track.scrollLeft = target; raf = null; return; }
-    track.scrollLeft += diff * EASE;
-    raf = requestAnimationFrame(tick);
+  function frame(t){
+    var dt = lastT ? Math.max(0.2, Math.min(2.5, (t - lastT) / 16.667)) : 1; lastT = t;
+    var next = track.scrollLeft + vel * dt, mx = maxLeft();
+    if (next <= 0 || next >= mx) { next = Math.max(0, Math.min(mx, next)); vel = 0; }
+    track.scrollLeft = next;
+    vel *= Math.pow(FRICTION, dt);
+    if (Math.abs(vel) < 0.04) { vel = 0; raf = null; lastT = 0; return; }
+    raf = requestAnimationFrame(frame);
   }
   track.addEventListener('wheel', function(e){
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;          // already a sideways gesture: native
     var dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * track.clientWidth : e.deltaY;
-    var cur = raf ? target : track.scrollLeft;
-    if ((dy > 0 && maxLeft() - cur < 2) || (dy < 0 && cur < 2)) return;   // at an end: let the page scroll
+    var left = track.scrollLeft, mx = maxLeft();
+    if ((dy > 0 && mx - left < 2) || (dy < 0 && left < 2)) return;  // at an end: let the page scroll
     e.preventDefault();
-    if (!raf) target = track.scrollLeft;
-    track.style.scrollSnapType = 'none';                           // no snapping fights while gliding
-    target = Math.max(0, Math.min(maxLeft(), target + dy * SPEED));
-    if (!raf) raf = requestAnimationFrame(tick);
-    clearTimeout(snapT);
-    snapT = setTimeout(function(){                                 // settle onto the nearest card when you stop
-      var st = step(), snapTo = Math.round(target / st) * st;
-      target = Math.max(0, Math.min(maxLeft(), snapTo));
-      if (!raf) raf = requestAnimationFrame(tick);
-      setTimeout(function(){ track.style.scrollSnapType = ''; }, 500);
-    }, 160);
+    track.style.scrollSnapType = 'none';                          // free glide; touch restores snapping below
+    vel = Math.max(-MAXV, Math.min(MAXV, vel + dy * PUSH));
+    if (!raf) { lastT = 0; raf = requestAnimationFrame(frame); }
   }, { passive: false });
+  track.addEventListener('touchstart', function(){ vel = 0; track.style.scrollSnapType = ''; }, { passive: true });
   window.addEventListener('resize', update);
   update();
 })();
