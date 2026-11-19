@@ -56,23 +56,20 @@
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .shot{
-    position:relative; aspect-ratio:16/10; overflow:hidden; container-type:size; background:#0A1017;
+    position:relative; aspect-ratio:16/10; overflow:hidden; background:#000;
+    display:flex; align-items:center; justify-content:center;
   }
   .shot .ph{
     position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-    text-align:center; padding:18px;
-    background:radial-gradient(ellipse at 50% 0%, rgba(61,188,202,.16), transparent 70%), #0A1017;
+    text-align:center; padding:18px; background:#000;
   }
   .ph b{ font-family:var(--font-display); font-size:clamp(20px,2.6vw,26px); font-weight:600; letter-spacing:-.01em; }
   .ph span{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--sonar); }
-  .shot img{
-    position:absolute; top:0; left:0; width:100%; height:auto; display:block;
-    transform:translateY(0); transition:transform 7s cubic-bezier(.4,0,.2,1);
+  .shot img.logo{
+    position:relative; display:block; max-width:70%; max-height:68%; width:auto; height:auto; object-fit:contain;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);
   }
-  /* long page screenshots slowly scroll on hover, like browsing the site */
-  .brand-card:hover .shot img, .brand-card:focus-visible .shot img{
-    transform:translateY(min(0px, calc(-100% + 100cqh)));
-  }
+  .brand-card:hover .shot img.logo, .brand-card:focus-visible .shot img.logo{ transform:scale(1.07); }
 
   .brand-meta{ padding:18px 8px 0; display:flex; flex-direction:column; gap:8px; flex:1; }
   .brand-cat{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sonar); }
@@ -144,8 +141,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">abilityplumbco.com</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Ability Plumbing &amp; Construction</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/ability-plumbing.jpg" alt="Ability Plumbing &amp; Construction website" loading="lazy" onerror="this.remove()">
+          <img class="logo" src="../assets/brands/logos/ability-plumbing.svg" alt="Ability Plumbing &amp; Construction website logo" loading="lazy">
         </div>
       </div>
       <div class="brand-meta">
@@ -160,8 +156,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">kcandroscoe.com</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>K.C. &amp; Roscoe</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/kc-and-roscoe.jpg" alt="K.C. and Roscoe website" loading="lazy" onerror="this.remove()">
+          <img class="logo" src="../assets/brands/logos/kc-and-roscoe.svg" alt="K.C. and Roscoe website logo" loading="lazy">
         </div>
       </div>
       <div class="brand-meta">
@@ -176,8 +171,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">cinimodagency.net</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Cinimod</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/cinimod.jpg" alt="Cinimod website" loading="lazy" onerror="this.remove()">
+          <img class="logo" src="../assets/brands/logos/cinimod.svg" alt="Cinimod website logo" loading="lazy">
         </div>
       </div>
       <div class="brand-meta">
@@ -192,8 +186,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">kmssequence.com</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>KMS Sequence</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/kms-sequence.jpg" alt="KMS Sequence website" loading="lazy" onerror="this.remove()">
+          <img class="logo" src="../assets/brands/logos/kms-sequence.svg" alt="KMS Sequence website logo" loading="lazy">
         </div>
       </div>
       <div class="brand-meta">
@@ -208,8 +201,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">ocean-in-motion.github.io/MCPhotography</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Mel Carter Photography</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/mel-carter-photography.jpg" alt="Mel Carter Photography website" loading="lazy" onerror="this.remove()">
+          <img class="logo" src="../assets/brands/logos/mel-carter-photography.svg" alt="Mel Carter Photography website logo" loading="lazy">
         </div>
       </div>
       <div class="brand-meta">
@@ -224,8 +216,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">narci.netlify.app</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Narci</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/narci.jpg" alt="Narci website" loading="lazy" onerror="this.remove()">
+          <img class="logo" src="../assets/brands/logos/narci.png" alt="Narci website logo" loading="lazy">
         </div>
       </div>
       <div class="brand-meta">
@@ -240,8 +231,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">ocean-in-motion.github.io/ocean-music</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Ocean Music</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/ocean-music.jpg" alt="Ocean Music website" loading="lazy" onerror="this.remove()">
+          <div class="ph" aria-hidden="true"><b>Ocean Music</b></div>
         </div>
       </div>
       <div class="brand-meta">
@@ -256,8 +246,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">ethansreach.org</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Ethan's Reach</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/ethans-reach.jpg" alt="Ethan's Reach website" loading="lazy" onerror="this.remove()">
+          <div class="ph" aria-hidden="true"><b>Ethan's Reach</b></div>
         </div>
       </div>
       <div class="brand-meta">
@@ -272,8 +261,7 @@
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url-pill">oceanmusicofficial.com</span></div>
         <div class="shot">
-          <div class="ph" aria-hidden="true"><b>Dealership Websites</b><span>Screenshot coming</span></div>
-          <img src="../assets/brands/dealership.jpg" alt="Dealership website" loading="lazy" onerror="this.remove()">
+          <div class="ph" aria-hidden="true"><b>Dealership Websites</b></div>
         </div>
       </div>
       <div class="brand-meta">
