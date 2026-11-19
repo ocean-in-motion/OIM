@@ -358,22 +358,34 @@
   next.addEventListener('click', function(){ track.scrollBy({ left: step(), behavior: 'smooth' }); });
   track.addEventListener('scroll', function(){ window.requestAnimationFrame(update); }, { passive: true });
 
-  // Mouse wheel / trackpad over the cards scrolls the row (one card per flick) instead of the page.
+  // Mouse wheel / trackpad over the cards scrolls the row (smoothly, with momentum) instead of the page.
   // At either end of the row the wheel goes back to scrolling the page, so you never get stuck.
-  var acc = 0, locked = false, resetT;
+  var SPEED = 1.8, EASE = 0.16;
+  var target = 0, raf = null, idleT, snapT;
+  function maxLeft(){ return track.scrollWidth - track.clientWidth; }
+  function tick(){
+    var diff = target - track.scrollLeft;
+    if (Math.abs(diff) < 0.5) { track.scrollLeft = target; raf = null; return; }
+    track.scrollLeft += diff * EASE;
+    raf = requestAnimationFrame(tick);
+  }
   track.addEventListener('wheel', function(e){
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;          // already a sideways gesture: native
-    var dir = e.deltaY > 0 ? 1 : -1;
-    var max = track.scrollWidth - track.clientWidth;
-    if ((dir > 0 && max - track.scrollLeft < 4) || (dir < 0 && track.scrollLeft < 4)) return;  // at an end: let page scroll
+    var dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * track.clientWidth : e.deltaY;
+    var cur = raf ? target : track.scrollLeft;
+    if ((dy > 0 && maxLeft() - cur < 2) || (dy < 0 && cur < 2)) return;   // at an end: let the page scroll
     e.preventDefault();
-    if (locked) return;
-    acc += e.deltaY;
-    clearTimeout(resetT); resetT = setTimeout(function(){ acc = 0; }, 150);
-    if (Math.abs(acc) < 30) return;
-    acc = 0; locked = true;
-    track.scrollBy({ left: dir * step(), behavior: 'smooth' });
-    setTimeout(function(){ locked = false; }, 450);
+    if (!raf) target = track.scrollLeft;
+    track.style.scrollSnapType = 'none';                           // no snapping fights while gliding
+    target = Math.max(0, Math.min(maxLeft(), target + dy * SPEED));
+    if (!raf) raf = requestAnimationFrame(tick);
+    clearTimeout(snapT);
+    snapT = setTimeout(function(){                                 // settle onto the nearest card when you stop
+      var st = step(), snapTo = Math.round(target / st) * st;
+      target = Math.max(0, Math.min(maxLeft(), snapTo));
+      if (!raf) raf = requestAnimationFrame(tick);
+      setTimeout(function(){ track.style.scrollSnapType = ''; }, 500);
+    }, 160);
   }, { passive: false });
   window.addEventListener('resize', update);
   update();
