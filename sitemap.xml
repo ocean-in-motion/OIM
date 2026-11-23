@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ocean-in-motion.com/</loc></url>
-  <url><loc>https://ocean-in-motion.com/about/</loc></url>
-  <url><loc>https://ocean-in-motion.com/packages/</loc></url>
-  <url><loc>https://ocean-in-motion.com/brands/</loc></url>
-  <url><loc>https://ocean-in-motion.com/contact/</loc></url>
+  <url><loc>https://ocean-in-motion.com/</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://ocean-in-motion.com/about/</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://ocean-in-motion.com/packages/</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://ocean-in-motion.com/brands/</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://ocean-in-motion.com/contact/</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://ocean-in-motion.com/link-hub/</loc><lastmod>2026-11-23</lastmod></url>
 </urlset>
